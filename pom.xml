@@ -12,7 +12,7 @@
 	<artifactId>ships</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ships</name>
-	<description>Demo project to handle back-end operations for a shipping container company</description>
+	<description>Spring Java service, managing inventory of a shipping company and providing information to the front-end via api..</description>
 
 	<properties>
 		<java.version>13</java.version>
@@ -21,7 +21,11 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-hateoas</artifactId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
