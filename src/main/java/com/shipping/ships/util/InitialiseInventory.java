@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,7 +39,7 @@ public class InitialiseInventory {
             // Split the file contents into JSON objects each containing one item of the list 'ships'
             JSONArray shipList = (JSONArray) jsonObject.get("ships");
 
-            // initialise an array to hold all the ships
+//          initialise an array to hold all the ships
             List<ShipEntity> ships = new ArrayList<>();
 
             // convert each raw list item object into aN instance of class Ship in the ships list
@@ -49,15 +48,11 @@ public class InitialiseInventory {
                         gson.fromJson(
                                 o.toString(), ShipEntity.class));
             }
-
             LOG.info("Parsed JSON object into Ships array");
-
             shipsRepository.saveAll(ships);
             LOG.info("ships.json initialised in H2 memory");
 
-        } catch (FileNotFoundException | ParseException e) {
-            e.printStackTrace();
-    } catch (IOException e) {
+        } catch (ParseException | IOException e) {
             e.printStackTrace();
         }
     }
