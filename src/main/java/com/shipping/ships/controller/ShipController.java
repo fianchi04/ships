@@ -19,10 +19,12 @@ import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
-@RequestMapping("/ship")
+@RequestMapping("/ships")
 public class ShipController {
     private static final Logger LOGGER = LoggerFactory.getLogger(ShipController.class);
     private final ShipService shipService;
+
+    //todo: mdc
 
     /**
      * Constructor
@@ -33,10 +35,11 @@ public class ShipController {
         this.shipService = shipService;
     }
 
-    /**
-     *  one to get all the ships of a specific owner -
-     */
 
+    /**
+     * Root URL, returns all the ships
+     * @return
+     */
     @GetMapping(path = "/", produces =  {APPLICATION_JSON_VALUE})
     public ResponseEntity<List<Ship>> getAllShips() {
         LOGGER.info("Connection made to getAllShips endpoint in controller");
@@ -48,13 +51,28 @@ public class ShipController {
     }
 
     /**
+     * Get ship by owner.
+     * @param owner the name of the owner of the ship.
+     * @return the ship as json.
+     */
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public ResponseEntity<List<Ship>> getAllShipsByOwner(
+            @RequestParam(value = "owner") String owner
+    ) {
+        LOGGER.info("Received request to get all ships by owner: {}", owner);
+
+        HttpHeaders headers = new HttpHeaders();
+        return new ResponseEntity<>(shipService.getShipsByOwner(owner), headers, HttpStatus.OK);
+    }
+
+    /**
      * Get ship by ID.
      * @param id the unique identifier of the ship.
      * @return the ship as json.
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Ship> getShipbyId(
-            @PathVariable (name = "id") int id
+            @PathVariable (name = "id") String id
     ) {
         LOGGER.info("Received request to get ship by id: {}", id);
         HttpHeaders headers = new HttpHeaders();
@@ -62,26 +80,11 @@ public class ShipController {
     }
 
     /**
-     * Get ship by owner.
-     * @param owner the name of the owner of the ship.
-     * @return the ship as json.
-     */
-    @RequestMapping(value = "/{owner}", method = RequestMethod.GET)
-    public ResponseEntity<List<Ship>> getShipbyOwner(
-            @PathVariable(value = "owner") String owner
-    ) {
-        LOGGER.info("Received request to get ship by owner: {}", owner);
-
-        HttpHeaders headers = new HttpHeaders();
-        return new ResponseEntity<>(shipService.getShipsByOwner(owner), headers, HttpStatus.OK);
-    }
-
-    /**
      * deletes ships.
      */
     @GetMapping(path = "/{id}/delete")
     public ResponseEntity deleteShip(
-            @PathVariable(value = "id") int id
+            @PathVariable(value = "id") String id
     ) {
         LOGGER.info("Received request to delete ship, id: {}", id);
         shipService.deleteShip(id);

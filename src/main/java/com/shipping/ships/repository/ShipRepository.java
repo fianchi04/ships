@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ShipRepository extends CrudRepository<ShipEntity, Integer> {
 
-    ShipEntity findById(int id);
+    ShipEntity findById(String id);
 
     Iterable<ShipEntity> getAllByOwner(String owner);
 

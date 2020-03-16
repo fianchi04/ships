@@ -3,7 +3,6 @@ package com.shipping.ships.service;
 import com.shipping.ships.repository.ShipRepository;
 import com.shipping.ships.repository.domain.ShipEntity;
 import com.shipping.ships.service.domain.Ship;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ public class ShipService{
 
     private final  ShipRepository shipRepository;
 
-    public ShipService( ShipRepository shipRepository) { this.shipRepository = shipRepository;}
+    public ShipService(ShipRepository shipRepository) { this.shipRepository = shipRepository;}
 
     public List<Ship> getAllShips() {
         List<Ship> ships = new ArrayList<>();
@@ -28,7 +27,7 @@ public class ShipService{
         return ships;
     }
 
-    public Ship getShipById(int id) {
+    public Ship getShipById(String id) {
         return shipRepository.findById(id).toShipModel();
     }
 
@@ -44,7 +43,8 @@ public class ShipService{
         return ships;
     }
 
-    public void deleteShip(int id) {
+    // todo: error handling
+    public void deleteShip(String id) {
         shipRepository.delete(
                 shipRepository.findById(id)
         );
