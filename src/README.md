@@ -7,8 +7,9 @@ For building and running the application you need:
 * Maven 3
 
 ##Running the application locally
-Execute the main method in the src/main/java/com/shipping/ships/ShipsApplication class from your IDE.
-Controller url: http://localhost:8080/ships/
+Open the project (as maven project, from pom.xml) in an IDE of your choice ( E.g. Intellij, Eclipse..)
+Execute the main method in the src/main/java/com/shipping/ships/ShipsApplication class.
+Connect (via Postman or browser) to url: http://localhost:8080/ships/
 
 ##Troubleshooting
 ##### LF/CRLF warnings from GIT
