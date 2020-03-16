@@ -26,17 +26,6 @@ public class Ship {
     @JsonProperty(value = "grossTonnage")
     private final String grossTonnage;
 
-    public Ship(String id, String built, String name, double lengthMeters, double beamMeters, int maxTEU, String owner, String grossTonnage) {
-        this.id = id;
-        this.built = built;
-        this.name = name;
-        this.lengthMeters = lengthMeters;
-        this.beamMeters = beamMeters;
-        this.maxTEU = maxTEU;
-        this.owner = owner;
-        this.grossTonnage = grossTonnage;
-    }
-
 
     @JsonCreator
     private Ship(Builder builder) {

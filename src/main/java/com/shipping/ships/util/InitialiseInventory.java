@@ -17,6 +17,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Bean called at application start up to load ships.json into H2 DB
+ */
 public class InitialiseInventory {
 
     private static final Logger LOG = LoggerFactory.getLogger(ShipsController.class);
@@ -32,7 +35,7 @@ public class InitialiseInventory {
 
         try {
             // read the file contents into an object
-            Object obj = parser.parse(new FileReader("C:\\Users\\avwil\\OneDrive\\Documents\\Code\\ships\\src\\main\\resources\\ships.json"));
+            Object obj = parser.parse(new FileReader("src\\main\\resources\\ships.json"));
 
             JSONObject jsonObject = (JSONObject) obj;
 
