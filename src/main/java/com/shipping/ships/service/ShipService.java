@@ -1,29 +1,47 @@
 package com.shipping.ships.service;
 
+import com.shipping.ships.repository.ShipRepository;
 import com.shipping.ships.service.domain.Ship;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ShipService {
+public class ShipService{
+
+    private final  ShipRepository shipRepository;
+
+    public ShipService( ShipRepository shipRepository) { this.shipRepository = shipRepository;}
 
     public List<Ship> getAllShips() {
-        List<Ship> ships = new ArrayList<Ship>();
-//        Ship ship = new Ship("1","1999", "foo", 10.00, 8.00, 80, "Barry", "400");
+        List<Ship> ships = new ArrayList<>();
 
-        Ship ship = Ship.builder()
-                .withId("1")
-                .withBuilt("1999")
-                .withName("foo")
-                .withLengthMeters(10.00)
-                .witBeamMeters(8.00)
-                .withMaxTEU(80)
-                .withOwner("Barry")
-                .withGrossTonnage("400")
-                .build();
-        ships.add(ship);
+        Iterable<Ship> all = shipRepository.findAll();
+
+        all.forEach(ships::add);
+
         return ships;
+    }
+
+    public Ship getShipById(int id) {
+        return shipRepository.findById(id);
+    }
+
+    public List<Ship> getShipsByOwner(String owner) {
+        List<Ship> ships = new ArrayList<>();
+
+        Iterable<Ship> all = shipRepository.getAllByOwner(owner);
+
+        all.forEach(ships::add);
+
+        return ships;
+    }
+
+    public void deleteShip(int id) {
+        shipRepository.delete(
+                shipRepository.findById(id)
+        );
     }
 }

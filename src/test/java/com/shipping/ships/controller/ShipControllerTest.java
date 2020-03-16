@@ -45,4 +45,28 @@ public class ShipControllerTest {
         Assertions.assertEquals(HttpStatus.OK, exchange.getStatusCode());
         Assertions.assertEquals(testShip.getId(), exchange.getBody().getId());
     }
+
+    @Test
+    public void getShipByIdShouldReturnStatusOKAndThatShipAsJson() {
+        // Create, for test ref data, an instance of Ship that we know is on the json file
+        Ship testShip =  Ship.builder()
+                .withId("164")
+                .withBuilt("2011")
+                .withName("CMA CGM Alaska")
+                .withLengthMeters(366)
+                .witBeamMeters(48)
+                .withMaxTEU(13092)
+                .withOwner("CMA CGM (France)")
+                .withGrossTonnage("140259")
+                .build();
+
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity httpEntity = new HttpEntity(headers);
+
+        // call the ShipController endpoint for GET 1 Ship by ID
+        ResponseEntity<Ship> exchange = this.restTemplate.exchange("http://localhost:" + this.port + "/ship/164", HttpMethod.GET, httpEntity, Ship.class );
+
+        Assertions.assertEquals(HttpStatus.OK, exchange.getStatusCode());
+        Assertions.assertEquals(testShip.getId(), exchange.getBody().getId());
+    }
 }

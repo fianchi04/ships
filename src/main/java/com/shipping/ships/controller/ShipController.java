@@ -1,6 +1,7 @@
 package com.shipping.ships.controller;
 
 import com.google.gson.Gson;
+import com.shipping.ships.repository.ShipRepository;
 import com.shipping.ships.service.ShipService;
 import com.shipping.ships.service.domain.Ship;
 import org.slf4j.Logger;
@@ -21,14 +22,14 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping("/ship")
 public class ShipController {
     private static final Logger LOGGER = LoggerFactory.getLogger(ShipController.class);
-    private ShipService shipService;
+    private final ShipService shipService;
 
     /**
      * Constructor
-     * @param shipService //<------
+     * @param shipService Handles retrieving data from the repository and creating a format which the controller can parse.
      */
     @Autowired
-    public ShipController( ShipService shipService) {
+    public ShipController(ShipService shipService) {
         this.shipService = shipService;
     }
 
@@ -54,22 +55,11 @@ public class ShipController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Ship> getShipbyId(
-            @PathVariable (name = "id") String id
+            @PathVariable (name = "id") int id
     ) {
         LOGGER.info("Received request to get ship by id: {}", id);
-        //todo: get ship by id
-        Ship ship =  Ship.builder()
-                .withId("1")
-                .withBuilt("1999")
-                .withName("foo")
-                .withLengthMeters(10.00)
-                .witBeamMeters(8.00)
-                .withMaxTEU(80)
-                .withOwner("Barry")
-                .withGrossTonnage("400")
-                .build();
         HttpHeaders headers = new HttpHeaders();
-        return new ResponseEntity<>(ship, headers, HttpStatus.OK);
+        return new ResponseEntity<>(shipService.getShipById(id), headers, HttpStatus.OK);
     }
 
     /**
@@ -77,25 +67,14 @@ public class ShipController {
      * @param owner the name of the owner of the ship.
      * @return the ship as json.
      */
-    @GetMapping(path = "/{owner}", produces =  {APPLICATION_JSON_VALUE})
-    public ResponseEntity<Ship> getShipbyOwner(
+    @RequestMapping(value = "/{owner}", method = RequestMethod.GET)
+    public ResponseEntity<List<Ship>> getShipbyOwner(
             @PathVariable(value = "owner") String owner
     ) {
         LOGGER.info("Received request to get ship by owner: {}", owner);
-        //todo: get ship by owner
-        Ship ship = Ship.builder()
-                .withId("1")
-                .withBuilt("1999")
-                .withName("foo")
-                .withLengthMeters(10.00)
-                .witBeamMeters(8.00)
-                .withMaxTEU(80)
-                .withOwner("Barry")
-                .withGrossTonnage("400")
-                .build();
 
         HttpHeaders headers = new HttpHeaders();
-        return new ResponseEntity<>(ship, headers, HttpStatus.OK);
+        return new ResponseEntity<>(shipService.getShipsByOwner(owner), headers, HttpStatus.OK);
     }
 
     /**
@@ -103,10 +82,10 @@ public class ShipController {
      */
     @GetMapping(path = "/{id}/delete")
     public ResponseEntity deleteShip(
-            @PathVariable(value = "id") String id
+            @PathVariable(value = "id") int id
     ) {
         LOGGER.info("Received request to delete ship, id: {}", id);
-        // todo: Delete ship
+        shipService.deleteShip(id);
         ResponseEntity responseEntity = new ResponseEntity(OK);
         LOGGER.info("Successfully deleted ship");
         return responseEntity;

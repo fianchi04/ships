@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added initialiseShipInventory() which parses a JSON file at application start up to populate a list of Ships, dependencies: googlecode + google.simple.JSON libraries
 - basic @RestController to return information on Ships
 - Test to check connection to RestController + basic serialisation/deserialisation of JSON objects
+- H2 repository and SPRING JPA interface for saving/retrieving ship info
 ### Fixed
 
 ### Changed
