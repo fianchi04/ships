@@ -40,7 +40,6 @@ public class ShipController {
     @GetMapping(path = "/", produces =  {APPLICATION_JSON_VALUE})
     public ResponseEntity<List<Ship>> getAllShips() {
         LOGGER.info("Connection made to getAllShips endpoint in controller");
-        //todo: return all ships
 
         HttpHeaders headers = new HttpHeaders();
 

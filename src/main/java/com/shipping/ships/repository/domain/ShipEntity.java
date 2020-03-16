@@ -9,8 +9,7 @@ import javax.persistence.Id;
 public class ShipEntity {
 
     @Id
-    private int id;
-
+    private String id;
     private String built;
     private String name;
     private Double lengthMeters;
@@ -21,7 +20,7 @@ public class ShipEntity {
 
     protected ShipEntity() {}
 
-    public ShipEntity(int id, String built, String name,
+    public ShipEntity(String id, String built, String name,
                       Double lengthMeters, Double beamMeters,
                       int maxTEU, String owner, String grossTonnage) {
         this.id = id;
@@ -48,7 +47,7 @@ public class ShipEntity {
                 '}';
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -78,5 +77,18 @@ public class ShipEntity {
 
     public String getGrossTonnage() {
         return grossTonnage;
+    }
+
+    public Ship toShipModel() {
+        return Ship.builder()
+                .withId(this.getId())
+                .withBuilt(this.getBuilt())
+                .withName(this.getName())
+                .withLengthMeters(this.getLengthMeters())
+                .witBeamMeters(this.getBeamMeters())
+                .withMaxTEU(this.getMaxTEU())
+                .withOwner(this.getOwner())
+                .withGrossTonnage(this.getGrossTonnage())
+                .build();
     }
 }
