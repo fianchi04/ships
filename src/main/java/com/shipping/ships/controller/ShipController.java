@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +20,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RestController
 @RequestMapping("/ships")
 public class ShipController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ShipController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ShipController.class);
     private final ShipService shipService;
 
     //todo: mdc
@@ -42,7 +41,7 @@ public class ShipController {
      */
     @GetMapping(path = "/", produces =  {APPLICATION_JSON_VALUE})
     public ResponseEntity<List<Ship>> getAllShips() {
-        LOGGER.info("Connection made to getAllShips endpoint in controller");
+        LOG.info("Connection made to getAllShips endpoint in controller");
 
         HttpHeaders headers = new HttpHeaders();
 
@@ -59,7 +58,7 @@ public class ShipController {
     public ResponseEntity<List<Ship>> getAllShipsByOwner(
             @RequestParam(value = "owner") String owner
     ) {
-        LOGGER.info("Received request to get all ships by owner: {}", owner);
+        LOG.info("Received request to get all ships by owner: {}", owner);
 
         HttpHeaders headers = new HttpHeaders();
         return new ResponseEntity<>(shipService.getShipsByOwner(owner), headers, HttpStatus.OK);
@@ -74,7 +73,7 @@ public class ShipController {
     public ResponseEntity<Ship> getShipbyId(
             @PathVariable (name = "id") String id
     ) {
-        LOGGER.info("Received request to get ship by id: {}", id);
+        LOG.info("Received request to get ship by id: {}", id);
         HttpHeaders headers = new HttpHeaders();
         return new ResponseEntity<>(shipService.getShipById(id), headers, HttpStatus.OK);
     }
@@ -86,10 +85,10 @@ public class ShipController {
     public ResponseEntity deleteShip(
             @PathVariable(value = "id") String id
     ) {
-        LOGGER.info("Received request to delete ship, id: {}", id);
+        LOG.info("Received request to delete ship, id: {}", id);
         shipService.deleteShip(id);
         ResponseEntity responseEntity = new ResponseEntity(OK);
-        LOGGER.info("Successfully deleted ship");
+        LOG.info("Successfully deleted ship");
         return responseEntity;
     }
 
