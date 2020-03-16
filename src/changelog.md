@@ -7,7 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased] - 2020-15-03
 ### Added 
 - Initialised Spring Boot app with JPA, H2, Web & Actuator dependencies
-
+- Ship class with builder pattern and inbuilt JSON serialisation/deserialisation
+- Added initialiseShipInventory() which parses a JSON file at application start up to populate a list of Ships, dependencies: googlecode + google.simple.JSON libraries
+- basic @RestController to return information on Ships
+- Test to check connection to RestController + basic serialisation/deserialisation of JSON objects
 ### Fixed
 
 ### Changed
