@@ -8,7 +8,7 @@ For building and running the application you need:
 
 ##Running the application locally
 Execute the main method in the src/main/java/com/shipping/ships/ShipsApplication class from your IDE.
-
+Controller url: http://localhost:8080/ships/
 
 ##Troubleshooting
 ##### LF/CRLF warnings from GIT

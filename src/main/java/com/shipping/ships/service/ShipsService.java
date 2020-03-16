@@ -74,7 +74,6 @@ public class ShipsService {
         return ships;
     }
 
-    // todo: error handling with @ControllerAdvice
     /**
      * Calls repository method to delete a ship by its id.
      * @param id the unique ID of the ship to be deleted
@@ -85,4 +84,6 @@ public class ShipsService {
                 shipsRepository.getById(id)
         );
     }
+
+    // todo: add service test
 }

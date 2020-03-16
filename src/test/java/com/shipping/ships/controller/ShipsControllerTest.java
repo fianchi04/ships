@@ -25,24 +25,15 @@ public class ShipsControllerTest {
 
     @Test
     public void getShipByIdShouldReturnStatusOKAndShipAsJson() {
-        Ship testShip =  Ship.builder()
-                .withId("1")
-                .withBuilt("1999")
-                .withName("foo")
-                .withLengthMeters(10.00)
-                .witBeamMeters(8.00)
-                .withMaxTEU(80)
-                .withOwner("Barry")
-                .withGrossTonnage("400")
-                .build();
+        String id = "1";
 
         HttpHeaders headers = new HttpHeaders();
         HttpEntity httpEntity = new HttpEntity(headers);
 
-        ResponseEntity<Ship> exchange = this.restTemplate.exchange("http://localhost:" + this.port + "/ships/1", HttpMethod.GET, httpEntity, Ship.class );
+        ResponseEntity<Ship> exchange = this.restTemplate.exchange("http://localhost:" + this.port + "/ships/" + id, HttpMethod.GET, httpEntity, Ship.class );
 
         Assertions.assertEquals(HttpStatus.OK, exchange.getStatusCode());
-        Assertions.assertEquals(testShip.getId(), exchange.getBody().getId());
+        Assertions.assertEquals(id, exchange.getBody().getId());
     }
 
 

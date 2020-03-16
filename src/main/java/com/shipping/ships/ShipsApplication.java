@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class  ShipsApplication {
+	// todo: adding linting + spotbugs / sonarqube
 
 	private static final Logger LOG = LoggerFactory.getLogger(ShipsApplication.class);
 

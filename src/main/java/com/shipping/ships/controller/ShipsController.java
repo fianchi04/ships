@@ -18,10 +18,10 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RestController
 @RequestMapping("/ships")
 public class ShipsController {
-    private static final Logger LOG = LoggerFactory.getLogger(ShipsController.class);
-    private final ShipsService shipsService;
 
-    //todo: mdc
+    private static final Logger LOG = LoggerFactory.getLogger(ShipsController.class); //todo: mdc
+
+    private final ShipsService shipsService;
 
     /**
      * Constructor
@@ -31,6 +31,7 @@ public class ShipsController {
     public ShipsController(ShipsService shipsService) {
         this.shipsService = shipsService;
     }
+    // todo: error handling with @ControllerAdvice
 
 
     /**

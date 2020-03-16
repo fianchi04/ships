@@ -11,4 +11,4 @@ public interface ShipsRepository extends CrudRepository<ShipEntity, Integer> {
 
     Iterable<ShipEntity> getAllByOwner(String owner);
 
-}
+} // todo: add repository test
