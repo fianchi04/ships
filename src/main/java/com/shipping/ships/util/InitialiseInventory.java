@@ -1,8 +1,8 @@
 package com.shipping.ships.util;
 
 import com.google.gson.Gson;
-import com.shipping.ships.controller.ShipController;
-import com.shipping.ships.repository.ShipRepository;
+import com.shipping.ships.controller.ShipsController;
+import com.shipping.ships.repository.ShipsRepository;
 import com.shipping.ships.repository.domain.ShipEntity;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -20,10 +20,10 @@ import java.util.List;
 
 public class InitialiseInventory {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ShipController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ShipsController.class);
 
     @Autowired
-    private ShipRepository shipRepository;
+    private ShipsRepository shipsRepository;
 
     public void init() {
         LOG.info("Initialisation method called by application start up");
@@ -52,7 +52,7 @@ public class InitialiseInventory {
 
             LOG.info("Parsed JSON object into Ships array");
 
-            shipRepository.saveAll(ships);
+            shipsRepository.saveAll(ships);
             LOG.info("ships.json initialised in H2 memory");
 
         } catch (FileNotFoundException | ParseException e) {

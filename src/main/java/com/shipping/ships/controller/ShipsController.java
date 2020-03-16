@@ -1,8 +1,6 @@
 package com.shipping.ships.controller;
 
-import com.google.gson.Gson;
-import com.shipping.ships.repository.ShipRepository;
-import com.shipping.ships.service.ShipService;
+import com.shipping.ships.service.ShipsService;
 import com.shipping.ships.service.domain.Ship;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,54 +12,55 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequestMapping("/ships")
-public class ShipController {
-    private static final Logger LOG = LoggerFactory.getLogger(ShipController.class);
-    private final ShipService shipService;
+public class ShipsController {
+    private static final Logger LOG = LoggerFactory.getLogger(ShipsController.class);
+    private final ShipsService shipsService;
 
     //todo: mdc
 
     /**
      * Constructor
-     * @param shipService Handles retrieving data from the repository and creating a format which the controller can parse.
+     * @param shipsService Handles retrieving data from the repository and creating a format which the controller can parse.
      */
     @Autowired
-    public ShipController(ShipService shipService) {
-        this.shipService = shipService;
+    public ShipsController(ShipsService shipsService) {
+        this.shipsService = shipsService;
     }
 
 
     /**
      * Root URL, returns all the ships
-     * @return
+     * @return List<Ship> a JSON list of all the ships as response body
      */
     @GetMapping(path = "/", produces =  {APPLICATION_JSON_VALUE})
     public ResponseEntity<List<Ship>> getAllShips() {
         LOG.info("Connection made to getAllShips endpoint in controller");
-
         HttpHeaders headers = new HttpHeaders();
+        ResponseEntity responseEntity = new ResponseEntity(shipsService.getAllShips(), headers, HttpStatus.OK);
+        LOG.info("Successfully created response with all ships as response body");
+        return responseEntity;
 
-        return new ResponseEntity<>(shipService.getAllShips(),
-                headers, HttpStatus.OK);
     }
 
     /**
-     * Get ship by owner.
-     * @param owner the name of the owner of the ship.
-     * @return the ship as json.
+     * Get all ships by owner.
+     * @param owner the name of the owner of the ship (Query parameter).
+     * @return the ships as json list.
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ResponseEntity<List<Ship>> getAllShipsByOwner(
             @RequestParam(value = "owner") String owner
     ) {
         LOG.info("Received request to get all ships by owner: {}", owner);
-
         HttpHeaders headers = new HttpHeaders();
-        return new ResponseEntity<>(shipService.getShipsByOwner(owner), headers, HttpStatus.OK);
+        ResponseEntity responseEntity = new ResponseEntity(shipsService.getAllShipsByOwner(owner), headers, HttpStatus.OK);
+        LOG.info("Successfully created response with all ships by owner name");
+        return responseEntity;
     }
 
     /**
@@ -75,19 +74,23 @@ public class ShipController {
     ) {
         LOG.info("Received request to get ship by id: {}", id);
         HttpHeaders headers = new HttpHeaders();
-        return new ResponseEntity<>(shipService.getShipById(id), headers, HttpStatus.OK);
+        ResponseEntity responseEntity = new ResponseEntity(shipsService.getShipById(id), headers, HttpStatus.OK);
+        LOG.info("Successfully created response with ship found by id");
+        return responseEntity;
     }
 
     /**
-     * deletes ships.
+     * Delete a ship by ID
+     * @param id the unique ID of the ship
+     * @return 200 OK if successful
      */
-    @GetMapping(path = "/{id}/delete")
+    @DeleteMapping(path = "/{id}")
     public ResponseEntity deleteShip(
             @PathVariable(value = "id") String id
     ) {
         LOG.info("Received request to delete ship, id: {}", id);
-        shipService.deleteShip(id);
-        ResponseEntity responseEntity = new ResponseEntity(OK);
+        shipsService.deleteShip(id);
+        ResponseEntity responseEntity = new ResponseEntity(NO_CONTENT);
         LOG.info("Successfully deleted ship");
         return responseEntity;
     }
